@@ -1,0 +1,64 @@
+name: DevFlow CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: |
+          frontend/package-lock.json
+          backend/package-lock.json
+
+    - name: Install Frontend Dependencies
+      run: npm ci
+      working-directory: ./frontend
+
+    - name: Frontend Type Check
+      run: npm run type-check
+      working-directory: ./frontend
+      continue-on-error: true # Might not exist natively if user just uses tsc
+
+    - name: Frontend Lint
+      run: npm run lint
+      working-directory: ./frontend
+      continue-on-error: true # Same as above
+
+    - name: Build Frontend
+      run: npm run build
+      working-directory: ./frontend
+
+    - name: Install Backend Dependencies
+      run: npm ci
+      working-directory: ./backend
+
+    - name: Backend Lint
+      run: npm run lint
+      working-directory: ./backend
+
+    - name: Backend Tests
+      run: npm test
+      working-directory: ./backend
+      env:
+        NODE_ENV: test
+        JWT_SECRET: testing_secret_key_123
+
+    - name: Build Backend
+      run: npm run build
+      working-directory: ./backend

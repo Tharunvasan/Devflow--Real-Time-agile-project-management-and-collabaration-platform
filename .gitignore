@@ -1,0 +1,67 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Build & compiled outputs
+dist/
+dist-ssr/
+build/
+*.tsbuildinfo
+.vite/
+
+# Environment files & Secrets
+.env
+.env.*
+*.env
+*.local
+!.env.example
+!**/.env.example
+
+# Runtime uploads & persistent logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Testing & Coverage
+coverage/
+.nyc_output/
+test-repo/
+
+# Python cache & virtual environments
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Operating System files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Editor directories and files
+.vscode/*
+!.vscode/settings.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Academic Report Scripts, PDFs & Screenshots (Strict Core App Filter)
+/*.py
+/*.pdf
+/*.docx
+/*.png
+/REPORT_VERIFICATION_NOTES.md
+/AUDIT_REPORT.md
+/IMPLEMENTATION_STATUS.md
