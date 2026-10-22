@@ -14,9 +14,27 @@ const startServer = async () => {
   const httpServer = http.createServer(app);
 
   // Initialize Socket.IO
+  const allowedOrigins = Array.from(new Set([
+    ...config.clientUrls,
+    'http://localhost:5173',
+    'http://localhost:3000',
+  ]));
+
   const io = new SocketIOServer(httpServer, {
     cors: {
-      origin: [config.clientUrl, 'http://localhost:5173', 'http://localhost:3000'].filter(Boolean),
+      origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        const normalizedOrigin = origin.replace(/\/+$/, '');
+        if (
+          allowedOrigins.includes(normalizedOrigin) ||
+          allowedOrigins.includes('*') ||
+          normalizedOrigin.endsWith('.vercel.app') ||
+          normalizedOrigin.endsWith('.onrender.com')
+        ) {
+          return callback(null, true);
+        }
+        return callback(null, true);
+      },
       methods: ['GET', 'POST'],
       credentials: true,
     },
