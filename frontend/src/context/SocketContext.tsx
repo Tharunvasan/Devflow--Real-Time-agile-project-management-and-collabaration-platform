@@ -3,7 +3,15 @@ import type { ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { useAuth } from './AuthContext';
 
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5000';
+const getSocketUrl = () => {
+  if (import.meta.env.VITE_SOCKET_URL && !import.meta.env.VITE_SOCKET_URL.includes('localhost')) {
+    return import.meta.env.VITE_SOCKET_URL;
+  }
+  const host = typeof window !== 'undefined' ? window.location.hostname : 'localhost';
+  return `http://${host}:5000`;
+};
+
+const SOCKET_URL = getSocketUrl();
 
 interface SocketContextType {
   socket: Socket | null;
