@@ -50,6 +50,8 @@ ehthumbs.db
 # Editor directories and files
 .vscode/*
 !.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
 .idea/
 *.suo
 *.ntvs*

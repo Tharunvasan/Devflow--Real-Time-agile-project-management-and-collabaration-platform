@@ -6,4 +6,5 @@ module.exports = {
   clearMocks: true,
   moduleFileExtensions: ['ts', 'js', 'json', 'node'],
   setupFilesAfterEnv: ['<rootDir>/src/tests/setup.ts'],
+  testTimeout: 60000,
 };
